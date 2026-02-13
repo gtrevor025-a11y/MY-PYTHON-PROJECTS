@@ -1,0 +1,36 @@
+from flask import Flask, render_template, request, redirect, url_for
+
+app = Flask(__name__)
+
+# This is your "database" - it stays in memory while the app runs
+students = []
+
+# --- ROUTES ---
+
+@app.route('/')
+def index():
+    # This shows the list of students on the home page
+    return render_template('index.html', students=students)
+
+@app.route('/add', methods=['POST'])
+def add_student():
+    # Instead of input(), we get data from a web form
+    name = request.form.get('name').title()
+    age = request.form.get('age')
+    grade = request.form.get('grade')
+    marks = request.form.get('marks')
+    
+    student = {"name": name, "age": age, "grade": grade, "marks": marks}
+    students.append(student)
+    
+    # After adding, go back to the home page
+    return redirect(url_for('index'))
+
+@app.route('/delete/<name>')
+def delete_student(name):
+    global students
+    students = [s for s in students if s['name'] != name]
+    return redirect(url_for('index'))
+
+if __name__ == '__main__':
+    app.run(debug=True)

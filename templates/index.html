@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>School Management System</title>
+    <style>
+        /* A little bit of CSS to make it look clean */
+        body { font-family: sans-serif; margin: 40px; line-height: 1.6; }
+        .student-card { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 5px; }
+        input { margin-bottom: 10px; display: block; padding: 5px; }
+        button { background-color: #28a745; color: white; border: none; padding: 10px; cursor: pointer; }
+        .delete-btn { color: red; text-decoration: none; margin-left: 20px; }
+    </style>
+</head>
+<body>
+
+    <h1>School Management System</h1>
+
+    <h3>Add a New Student</h3>
+    <form action="/add" method="POST">
+        <input type="text" name="name" placeholder="Full Name" required>
+        <input type="number" name="age" placeholder="Age" required>
+        <input type="text" name="grade" placeholder="Grade" required>
+        <input type="number" name="marks" placeholder="Marks" required>
+        <button type="submit">Add Student to List</button>
+    </form>
+
+    <hr>
+
+    <h3>Current Students</h3>
+    <div id="student-list">
+        {% if not students %}
+            <p>No students in the system yet.</p>
+        {% else %}
+            {% for student in students %}
+                <div class="student-card">
+                    <strong>{{ student.name }}</strong> | 
+                    Age: {{ student.age }} | 
+                    Grade: {{ student.grade }} | 
+                    Marks: {{ student.marks }}
+                    
+                    <a href="/delete/{{ student.name }}" class="delete-btn">Remove</a>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+</body>
+</html>
